@@ -1,4 +1,9 @@
-data/
-log/
-modules/
-www/
+data/mysql/
+data/redis/
+data/nodejs/
+log/mysql/
+log/nginx/
+log/php-fpm/
+modules/nodejs/
+www/app/
+www/static/
