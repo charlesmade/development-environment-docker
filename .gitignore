@@ -5,5 +5,4 @@ log/mysql/
 log/nginx/
 log/php-fpm/
 modules/nodejs/
-www/app/
-www/static/
+www/
