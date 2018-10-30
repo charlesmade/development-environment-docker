@@ -9,8 +9,8 @@ services:
       - redis-db:redis-db
     volumes:
       - ./www/app/:/data/www/:rw
-      - ./conf/php/:/usr/local/etc/php/:rw
-      - ./conf/php-fpm.d/:/usr/local/etc/php/php-fpm.d/:rw
+      - ./conf/php/*:/usr/local/etc/php/*:rw
+      - ./conf/php-fpm.d/*:/usr/local/etc/php-fpm.d/*:rw
       - ./log/php-fpm/:/var/log/php-fpm/:rw
     restart: always
     command: php-fpm
@@ -23,7 +23,8 @@ services:
       - php-fpm:php-fpm
     volumes:
       - ./www/app/:/data/www/:rw
-      - ./conf/nginx/:/etc/nginx/:rw
+      - ./conf/nginx/nginx.conf:/etc/nginx/nginx.conf:rw
+      - ./conf/nginx/conf.d/:/etc/nginx/conf.d/:rw
       - ./log/nginx/:/var/log/nginx/:rw
     ports:
       - "80:80"
@@ -40,11 +41,11 @@ services:
       - ./data/mysql/:/var/lib/mysql/:rw
       - ./log/mysql/:/var/lib/mysql-logs/:rw
       - ./mysql/conf.d/:/etc/mysql/conf.d/:rw
-    environment:
-      MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: zphaldb
-      MYSQL_USER: zphal
-      MYSQL_PASSWORD: zphal123
+    # environment:
+    #   MYSQL_ROOT_PASSWORD: 123456
+    #   MYSQL_DATABASE: zphaldb
+    #   MYSQL_USER: zphal
+    #   MYSQL_PASSWORD: zphal123
     restart: always
     command: "--character-set-server=utf8"
 
@@ -54,4 +55,14 @@ services:
       - "6379:6379"
     volumes:
       - ./data/redis/:/data/
+    restart: always
+
+  nodejs:
+    build: ./nodejs/
+    volumes:
+      - ./www/static/:/usr/src/app:rw
+      - ./modules/nodejs/:/usr/src/app/node_modules:rw
+    ports:
+      - "9906:9906"
+    command: "npm start"
     restart: always
