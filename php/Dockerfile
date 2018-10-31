@@ -122,6 +122,8 @@ RUN set -xe \
 		--enable-ftp \
 		--enable-mbstring \
 		--enable-mysqlnd \
+		--with-mysqli=mysqlnd \
+		--with-pdo-mysql=mysqlnd \
 		--with-curl \
 		--with-libedit \
 		--with-openssl \

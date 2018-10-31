@@ -1,0 +1,17 @@
+rewrite ^/dashboard$ /index.php/dashboard last;
+rewrite ^/dashboard/(.*)$ /index.php/dashboard/$1 last;
+
+rewrite ^/discussion$ /index.php/discussion last;
+rewrite ^/discussion/(.*)$ /index.php/discussion/$1 last;
+
+rewrite ^/logout$ /index.php/logout last;
+
+rewrite ^/login$ /index.php/login last;
+
+rewrite ^/api/(.*)$ /index.php/api/$1 last;
+
+rewrite ^/user/(.*)$ /index.php/user/$1 last;
+
+rewrite ^/setting$ /index.php/setting last;
+
+rewrite ^/search(.*)$ /index.php/search$1 last;
