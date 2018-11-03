@@ -43,11 +43,11 @@ services:
       - ./data/mysql/:/var/lib/mysql/:rw
       - ./log/mysql/:/var/lib/mysql-logs/:rw
       - ./mysql/conf.d/:/etc/mysql/conf.d/:rw
-    # environment:
-    #   MYSQL_ROOT_PASSWORD: 123456
-    #   MYSQL_DATABASE: zphaldb
-    #   MYSQL_USER: zphal
-    #   MYSQL_PASSWORD: zphal123
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: test
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 123456
     restart: always
     command: "--character-set-server=utf8"
 
@@ -59,12 +59,12 @@ services:
       - ./data/redis/:/data/
     restart: always
 
-  # nodejs:
-  #   build: ./nodejs/
-  #   volumes:
-  #     - ./www/static/:/usr/src/app:rw
-  #     - ./modules/nodejs/:/usr/src/app/node_modules:rw
-  #   ports:
-  #     - "9906:9906"
-  #   command: "npm start"
-  #   restart: always
+  nodejs:
+    build: ./nodejs/
+    volumes:
+      - ./www/blog/:/usr/src/app:rw
+      - ./modules/nodejs/:/usr/src/app/node_modules:rw
+    ports:
+      - "9906:9906"
+    command: "npm start"
+    restart: always
