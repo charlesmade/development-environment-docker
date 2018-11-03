@@ -62,8 +62,8 @@ services:
   nodejs:
     build: ./nodejs/
     volumes:
-      - ./www/blog/:/usr/src/app:rw
-      - ./modules/nodejs/:/usr/src/app/node_modules:rw
+      - ./www/blog/:/src/:rw
+      - ./modules/nodejs/:/src/node_modules:rw
     ports:
       - "9906:9906"
     command: "npm start"
