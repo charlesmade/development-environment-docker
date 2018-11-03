@@ -59,12 +59,12 @@ services:
       - ./data/redis/:/data/
     restart: always
 
-  nodejs:
-    build: ./nodejs/
-    volumes:
-      - ./www/blog/:/src/:rw
-      - ./modules/nodejs/:/src/node_modules:rw
-    ports:
-      - "9906:9906"
-    command: "npm start"
-    restart: always
+  # nodejs:
+  #   build: ./nodejs/
+  #   volumes:
+  #     - ./www/blog/:/src/:rw
+  #     - ./modules/nodejs/:/src/node_modules:rw
+  #   ports:
+  #     - "9906:9906"
+  #   command: "npm start"
+  #   restart: always
