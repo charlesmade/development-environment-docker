@@ -1,10 +1,15 @@
-#
-# NOTE: THIS DOCKERFILE IS GENERATED VIA "update.sh"
-#
-# PLEASE DO NOT EDIT IT DIRECTLY.
-#
+###   --------------------------------
+###                                 --
+###          swoole                 --
+###    修改自php7.1.23-alpine3.8镜像 --
+###   --------------------------------
 
 FROM alpine:3.8
+LABEL maintainer coze <zeco11320@gmail.com>
+ENV TZ "Asia/Shanghai"
+
+# Ext versions
+ENV SWOOLE_VER=1.10.1
 
 # dependencies required for running "phpize"
 # these get automatically installed and removed by "docker-php-ext-*" (unless they're already installed)
@@ -20,7 +25,7 @@ ENV PHPIZE_DEPS \
 		re2c
 
 # persistent / runtime deps
-RUN apk add --no-cache --virtual .persistent-deps \
+RUN apk add --no-cache --virtual .persistent-deps --repository http://mirrors.aliyun.com/alpine/v3.4/main/ \
 		ca-certificates \
 		curl \
 		tar \
@@ -61,7 +66,7 @@ ENV PHP_SHA256="227a3c76133c3dc1cec937989456cbd89ed00e68e7260c651900dbe1f5b798bc
 
 RUN set -xe; \
 	\
-	apk add --no-cache --virtual .fetch-deps \
+	apk add --no-cache --virtual .fetch-deps --repository http://mirrors.aliyun.com/alpine/v3.4/main/ \
 		gnupg \
 		wget \
 	; \
@@ -94,7 +99,7 @@ RUN set -xe; \
 COPY docker-php-source /usr/local/bin/
 
 RUN set -xe \
-	&& apk add --no-cache --virtual .build-deps \
+	&& apk add --update --no-cache --virtual .build-deps --repository http://mirrors.aliyun.com/alpine/v3.4/main/ \
 		$PHPIZE_DEPS \
 		coreutils \
 		curl-dev \
@@ -102,6 +107,15 @@ RUN set -xe \
 		libressl-dev \
 		libxml2-dev \
 		sqlite-dev \
+#新增的extension所以来的包
+		libpng-dev \
+		libjpeg-turbo-dev \
+		freetype-dev \
+		libmcrypt-dev \
+# 新增编译swoole redis扩展所需的hiredis扩展
+		hiredis-dev \
+# 添加headers防止abi_aio报错
+		linux-headers \
 	\
 	&& export CFLAGS="$PHP_CFLAGS" \
 		CPPFLAGS="$PHP_CPPFLAGS" \
@@ -131,6 +145,17 @@ RUN set -xe \
 		--with-libedit \
 		--with-openssl \
 		--with-zlib \
+#新增扩展编译 mcrypt gd jpeg png opcache pcntl 及mysql pdo支持
+		--with-mysqli=mysqlnd \
+		--with-pdo-mysql=mysqlnd \
+		--with-mcrypt \
+		--with-gd \
+		--with-freetype-dir \
+		--with-jpeg-dir \
+		--with-png-dir \
+		--enable-opcache \
+		--enable-pcntl \
+		--enable-sockets \
 		\
 # bundled pcre does not support JIT on s390x
 # https://manpages.debian.org/stretch/libpcre3-dev/pcrejit.3.en.html#AVAILABILITY_OF_JIT_SUPPORT
@@ -145,6 +170,23 @@ RUN set -xe \
 # https://github.com/docker-library/php/issues/692 (copy default example "php.ini" files somewhere easily discoverable)
 	&& cp -v php.ini-* "$PHP_INI_DIR/" \
 	\
+# 安装redis扩展
+	&& pecl install redis \
+	&& { \
+		echo 'extension=redis.so'; \
+	} | tee /usr/local/etc/php/conf.d/ext_redis.ini \
+# 安装swoole扩展
+	&& curl -sS -o /tmp/swoole.tar.gz http://pecl.php.net/get/swoole-$SWOOLE_VER.tgz \
+	&& cd /tmp/ && tar zxvf swoole.tar.gz && cd swoole-$SWOOLE_VER \
+	&& phpize \
+	&& ./configure \
+        --with-php-config=/usr/local/bin/php-config \
+		--enable-coroutine \
+        --enable-openssl \
+        --enable-async-redis \
+        --enable-sockets \
+        --enable-mysqlnd \
+	&& make && make install \
 	&& cd / \
 	&& docker-php-source delete \
 	\
@@ -160,7 +202,7 @@ RUN set -xe \
 	\
 # https://github.com/docker-library/php/issues/443
 	&& pecl update-channels \
-	&& rm -rf /tmp/pear ~/.pearrc
+	&& rm -rf /tmp/pear ~/.pearrc /tmp/*
 
 COPY docker-php-ext-* docker-php-entrypoint /usr/local/bin/
 

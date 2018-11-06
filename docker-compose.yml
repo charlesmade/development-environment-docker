@@ -68,3 +68,16 @@ services:
   #     - "9906:9906"
   #   command: "npm start"
   #   restart: always
+
+  swoole:
+    build: ./swoole/
+    ports:
+      - "9501:9501"
+    volumes:
+      - ./www/:/app/:rw
+    restart: always
+    depends_on:
+      - mysql-db
+      - redis-db
+    # command: php /app/src/server.php start
+    command: php -a

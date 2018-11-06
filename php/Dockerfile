@@ -106,7 +106,6 @@ RUN set -xe \
 		libjpeg-turbo-dev \
 		freetype-dev \
 		libmcrypt-dev \
-		libxml2-dev \
 	&& export CFLAGS="$PHP_CFLAGS" \
 		CPPFLAGS="$PHP_CPPFLAGS" \
 		LDFLAGS="$PHP_LDFLAGS" \
@@ -122,13 +121,13 @@ RUN set -xe \
 		--enable-ftp \
 		--enable-mbstring \
 		--enable-mysqlnd \
-		--with-mysqli=mysqlnd \
-		--with-pdo-mysql=mysqlnd \
 		--with-curl \
 		--with-libedit \
 		--with-openssl \
 		--with-zlib \
 #新增扩展编译 mcrypt gd jpeg png opcache
+		--with-mysqli=mysqlnd \
+		--with-pdo-mysql=mysqlnd \
 		--with-mcrypt \
 		--with-gd \
 		--with-freetype-dir \
