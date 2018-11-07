@@ -72,12 +72,15 @@ services:
   swoole:
     build: ./swoole/
     ports:
-      - "9501:9501"
+      - "9502:9502"
     volumes:
-      - ./www/:/app/:rw
+      - ./www/:/app/:ro
+      - ./log/swoole/:/data/wwwlogs/:rw
     restart: always
+    stdin_open: true
+    tty: true
     depends_on:
       - mysql-db
       - redis-db
-    # command: php /app/src/server.php start
-    command: php -a
+    command: php /app/start_yousi/App/Common/Utility/SwooleServer.class.php
+    # command: php -a
