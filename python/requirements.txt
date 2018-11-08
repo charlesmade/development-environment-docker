@@ -1,0 +1,6 @@
+flask
+opencv-python
+matplotlib
+imutils
+uwsgi
+scipy
