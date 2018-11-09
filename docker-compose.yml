@@ -14,6 +14,7 @@ services:
       - ./conf/php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf:rw
       - ./conf/php-fpm/conf.d/:/usr/local/etc/php-fpm.d/:rw
       - ./log/php-fpm/:/var/log/php-fpm/:rw
+      - ./www/start_yousi/Public/photo/:/tmp/photo/:rw
     restart: always
     command: php-fpm
 
@@ -93,5 +94,6 @@ services:
         - "9191:9191"
       volumes:
         - ./www/reco_py:/usr/src/app/:ro
+        - ./www/start_yousi/Public/photo/:/tmp/photo/:rw
       restart: always
       command: uwsgi uwsgi_config.ini 
