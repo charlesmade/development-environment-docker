@@ -6,4 +6,4 @@ log/nginx/
 log/php-fpm/
 modules/nodejs/
 www/
-conf/conf.d/
+conf/nginx/conf.d/
