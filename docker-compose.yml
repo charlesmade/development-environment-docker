@@ -14,7 +14,6 @@ services:
       - ./conf/php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf:rw
       - ./conf/php-fpm/conf.d/:/usr/local/etc/php-fpm.d/:rw
       - ./log/php-fpm/:/var/log/php-fpm/:rw
-      - ./www/start_yousi/Public/photo/:/tmp/photo/:rw
     restart: always
     command: php-fpm
 
@@ -71,20 +70,20 @@ services:
   #   command: "npm start"
   #   restart: always
 
-  # swoole:
-  #   build: ./swoole/
-  #   ports:
-  #     - "9502:9502"
-  #   volumes:
-  #     - ./www/:/app/:ro
-  #     - ./log/swoole/:/data/wwwlogs/:rw
-  #   restart: always
-  #   stdin_open: true
-  #   tty: true
-  #   depends_on:
-  #     - mysql-db
-  #     - redis-db
-  #   command: php /app/start_yousi/App/Common/Utility/SwooleServer.class.php
+  swoole:
+    build: ./swoole/
+    ports:
+      - "9502:9502"
+    volumes:
+      - ./www/:/app/:ro
+      - ./log/swoole/:/data/wwwlogs/:rw
+    restart: always
+    stdin_open: true
+    tty: true
+    depends_on:
+      - mysql-db
+      - redis-db
+    command: php /path/to/swoole_server.php
     # command: php -a
   
   python3-uwsgi:
