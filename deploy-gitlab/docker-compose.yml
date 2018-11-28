@@ -2,6 +2,7 @@ version: '3.2'
 services:
   gitlab:
     images: gitlab/gitlab-ce:latest
+    hostname: '212.64.80.20'
     ports:
       - "9443:443"
       - "9080:80"
