@@ -7,3 +7,6 @@ log/php-fpm/
 modules/nodejs/
 www/
 conf/nginx/conf.d/
+deploy-gitlab/logs/*
+deploy-gitlab/config/*
+deploy-gitlab/data/*
