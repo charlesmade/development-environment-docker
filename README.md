@@ -10,7 +10,7 @@
 
 4.进入文件夹
 
-> cd ./development-environment-docker
+> cd ./development-environment-docker & sudo chmod -R +x ./
 
 5.部署编排文件
 
