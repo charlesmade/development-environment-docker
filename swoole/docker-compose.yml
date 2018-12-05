@@ -1,0 +1,16 @@
+version: '3.2'
+services:
+  swoole:
+    build: ./swoole/
+    ports:
+      - "9502:9502"
+    volumes:
+      - ./www/:/app/:ro
+      - ./log/swoole/:/data/wwwlogs/:rw
+    restart: always
+    stdin_open: true
+    tty: true
+    depends_on:
+      - mysql-db
+      - redis-db
+    command: php /path/to/swoole_server.php

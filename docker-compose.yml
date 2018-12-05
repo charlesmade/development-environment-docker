@@ -46,7 +46,7 @@ services:
       - ./mysql/conf.d/:/etc/mysql/conf.d/:rw
     environment:
       MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: blog
+      MYSQL_DATABASE: my_sql
       MYSQL_USER: root
       MYSQL_PASSWORD: 123456
     restart: always
@@ -69,7 +69,6 @@ services:
   #     - "9906:9906"
   #   command: "npm start"
   #   restart: always
-
   swoole:
     build: ./swoole/
     ports:
