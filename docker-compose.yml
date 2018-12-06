@@ -69,6 +69,21 @@ services:
   #     - "9906:9906"
   #   command: "npm start"
   #   restart: always
+  swoole:
+    build: ./swoole/
+    ports:
+      - "9502:9502"
+    volumes:
+      - ./www/:/app/:ro
+      - ./log/swoole/:/data/wwwlogs/:rw
+    restart: always
+    stdin_open: true
+    tty: true
+    depends_on:
+      - mysql-db
+      - redis-db
+    command: php /app/swoole/swoole_server.php
+    # command: php -a
   
   # python3-uwsgi:
   #     build: ./python/
