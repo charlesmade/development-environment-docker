@@ -9,7 +9,7 @@ LABEL maintainer coze <zeco11320@gmail.com>
 ENV TZ "Asia/Shanghai"
 
 # Ext versions
-ENV SWOOLE_VER=4.2.2
+ENV SWOOLE_VER=4.2.6
 
 # dependencies required for running "phpize"
 # these get automatically installed and removed by "docker-php-ext-*" (unless they're already installed)
