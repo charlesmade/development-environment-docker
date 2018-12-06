@@ -97,6 +97,7 @@ RUN set -xe; \
 	apk del .fetch-deps
 
 COPY docker-php-source /usr/local/bin/
+COPY file/redis-4.2.0.tgz /tmp/
 
 RUN set -xe \
 	&& apk add --update --no-cache --virtual .build-deps --repository http://mirrors.aliyun.com/alpine/v3.4/main/ \
@@ -170,8 +171,10 @@ RUN set -xe \
 # https://github.com/docker-library/php/issues/692 (copy default example "php.ini" files somewhere easily discoverable)
 	&& cp -v php.ini-* "$PHP_INI_DIR/" \
 	\
-# 安装redis扩展
-	&& pecl install redis \
+# 安装redis扩展 pecl install redis 报错 ssl://pecl.php.net:443
+	&& cd /tmp/ \
+	&& pecl install redis-4.2.0.tgz \
+	&& rm -rf redis-4.2.0.tgz \
 # 安装swoole扩展
 	&& curl -sS -o /tmp/swoole.tar.gz http://pecl.php.net/get/swoole-$SWOOLE_VER.tgz \
 	&& cd /tmp/ && tar zxvf swoole.tar.gz && cd swoole-$SWOOLE_VER \

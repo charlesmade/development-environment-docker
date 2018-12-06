@@ -72,7 +72,7 @@ services:
   swoole:
     build: ./swoole/
     ports:
-      - "9502:9502"
+      - "9501:9501"
     volumes:
       - ./www/:/app/:ro
       - ./log/swoole/:/data/wwwlogs/:rw
@@ -82,7 +82,7 @@ services:
     depends_on:
       - mysql-db
       - redis-db
-    command: php /app/swoole/swoole_server.php
+    command: php /app/swoole_server.php
     # command: php -a
   
   # python3-uwsgi:
