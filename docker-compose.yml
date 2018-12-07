@@ -1,7 +1,8 @@
 version: '3.2'
 services:
   php-fpm:
-    build: ./php/
+    # build: ./php/
+    image: cozzz/phpfpm
     ports:
       - "9000:9000"
       - "9100:9100"
@@ -18,7 +19,8 @@ services:
     command: php-fpm
 
   nginx:
-    build: ./nginx/
+    # build: ./nginx/
+    image: cozzz/nginx
     depends_on:
       - php-fpm
       # - python3-uwsgi
@@ -37,7 +39,8 @@ services:
     command: nginx -g 'daemon off;'
 
   mysql-db:
-    build: ./mysql/
+    # build: ./mysql/
+    image: cozzz/mysql
     ports:
       - "3306:3306"
     volumes:
@@ -53,7 +56,8 @@ services:
     command: "--character-set-server=utf8"
 
   redis-db:
-    build: ./redis/
+    # build: ./redis/
+    image: cozzz/redis
     ports:
       - "6379:6379"
     volumes:
@@ -70,7 +74,8 @@ services:
   #   command: "npm start"
   #   restart: always
   swoole:
-    build: ./swoole/
+    # build: ./swoole/
+    image: cozzz/swoole
     ports:
       - "9501:9501"
     volumes:
@@ -82,7 +87,7 @@ services:
     depends_on:
       - mysql-db
       - redis-db
-    command: php /app/swoole_server.php
+    # command: php /app/swoole/swoole_server.php
     # command: php -a
   
   # python3-uwsgi:
