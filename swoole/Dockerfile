@@ -208,6 +208,12 @@ RUN set -xe \
 	&& pecl update-channels \
 	&& rm -rf /tmp/pear ~/.pearrc /tmp/*
 
+# install composer
+RUN cd /tmp && \
+    curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer  && \
+    composer config -g repo.packagist composer https://packagist.phpcomposer.com
+
 COPY docker-php-ext-* docker-php-entrypoint /usr/local/bin/
 
 ENTRYPOINT ["docker-php-entrypoint"]
