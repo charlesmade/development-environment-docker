@@ -79,7 +79,7 @@ services:
     ports:
       - "9501:9501"
     volumes:
-      - ./www/:/app/:ro
+      - ./www/:/app/:rw
       - ./log/swoole/:/data/wwwlogs/:rw
     restart: always
     stdin_open: true
